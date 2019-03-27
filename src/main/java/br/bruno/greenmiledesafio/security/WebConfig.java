@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 
 @Configuration
 @EnableWebSecurity
@@ -35,8 +33,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().successHandler(jwtAuthenticationSuccessHandler).defaultSuccessUrl("/")//enable form login instead of basic login
                 .and().csrf().ignoringAntMatchers("/h2-console/**")//don't apply CSRF protection to /h2-console
                 .and().headers().frameOptions().sameOrigin()//allow use of frame to same origin urls
-                .and().addFilterBefore(new JWTAuthorizationFilter(authenticationManager(),jwtAuthenticationService),
-                                    JWTAuthorizationFilter.class);
+                .and().addFilterBefore(jwtAuthorizationFilter, JWTAuthorizationFilter.class);
     }
 
     @Autowired

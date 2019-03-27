@@ -18,7 +18,7 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
     private boolean ativo;
-    @ManyToMany(fetch = FetchType.EAGER) //TODO: VERIFICAR ESSA QUESTAO DO LAZY
+    @ManyToMany(fetch = FetchType.EAGER) //TODO VERIFICAR ESSA QUESTAO DO LAZY
     private Collection<Permissao> permissoes = new ArrayList<>();
 
     public Usuario() {

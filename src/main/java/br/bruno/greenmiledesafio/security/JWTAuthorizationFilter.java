@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import static br.bruno.greenmiledesafio.security.SecurityConstants.HEADER_STRING;
 import static br.bruno.greenmiledesafio.security.SecurityConstants.TOKEN_PREFIX;
@@ -32,7 +31,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
 
-        //TODO: FAZER ISSO FUNCIONARString header = request.getHeader(HEADER_STRING);
+        //TODO: pegar a authorização do Header
         String header = getTokenFromCookies(request.getCookies());
         if(header == null){
             chain.doFilter(request,response);
@@ -42,7 +41,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         Authentication authentication = jwtAuthenticationService.getAuthentication(header);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request,response);
-        //SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     private String getTokenFromCookies(Cookie[] cookies) throws UnsupportedEncodingException {

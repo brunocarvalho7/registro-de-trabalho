@@ -1,6 +1,5 @@
 package br.bruno.greenmiledesafio.security;
 
-import br.bruno.greenmiledesafio.model.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

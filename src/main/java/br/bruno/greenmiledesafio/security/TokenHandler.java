@@ -19,17 +19,10 @@ public class TokenHandler {
     }
 
     public Usuario parseUserFromToken(String token){
-        System.out.println("Chegou aqui com o token "+token);
         String username = Jwts.parser()
                         .setSigningKey(SECRET)
                         .parseClaimsJws(token)
                         .getBody().getSubject();
-
-        System.out.println(username);
-
-        Usuario u = (Usuario) userService.loadUserByUsername(username);
-
-        System.out.println(u.getId());
 
         return (Usuario) userService.loadUserByUsername(username);
     }

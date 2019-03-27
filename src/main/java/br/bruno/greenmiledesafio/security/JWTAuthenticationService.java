@@ -3,11 +3,9 @@ package br.bruno.greenmiledesafio.security;
 import br.bruno.greenmiledesafio.model.Usuario;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.UnsupportedEncodingException;
@@ -19,7 +17,7 @@ public class JWTAuthenticationService {
 
     private TokenHandler tokenHandler;
 
-
+    //c0d527b2365a92946da5d480f8fd157e034e7192a
     public JWTAuthenticationService(UserDetailsService userDetailsService){
         this.tokenHandler = new TokenHandler(userDetailsService);
     }
@@ -35,7 +33,6 @@ public class JWTAuthenticationService {
 
     public Authentication getAuthentication(String token){
         Usuario usuario = tokenHandler.parseUserFromToken(token);
-        System.out.println("getAuthentication"+usuario);
 
         return usuario != null ? new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities()) : null;
     }
