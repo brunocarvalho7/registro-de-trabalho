@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.net.URLEncoder;
 
 import static br.bruno.greenmiledesafio.security.SecurityConstants.*;
@@ -17,16 +17,16 @@ public class JWTAuthenticationService {
 
     private TokenHandler tokenHandler;
 
-    //c0d527b2365a92946da5d480f8fd157e034e7192a
-    public JWTAuthenticationService(UserDetailsService userDetailsService){
+    public JWTAuthenticationService(UserDetailsService userDetailsService) throws IOException {
         this.tokenHandler = new TokenHandler(userDetailsService);
     }
 
-    public void addAuthentication(HttpServletResponse response, Authentication authentication) throws UnsupportedEncodingException {
+    public void addAuthentication(HttpServletResponse response, Authentication authentication) throws IOException {
         Usuario usuario = (Usuario) authentication.getPrincipal();
 
         String header = TOKEN_PREFIX +tokenHandler.createTokenForUser(usuario);
 
+        response.getWriter().write(header);
         response.addHeader(HEADER_STRING,  header);
         response.addCookie(new  Cookie(HEADER_STRING, URLEncoder.encode(header, "UTF-8")));
     }

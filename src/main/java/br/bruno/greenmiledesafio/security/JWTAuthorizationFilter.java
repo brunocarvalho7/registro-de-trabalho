@@ -30,15 +30,18 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
-
-        //TODO: pegar a authorização do Header
         String header = getTokenFromCookies(request.getCookies());
+
+        if(header == null)
+            header = request.getHeader(HEADER_STRING);
+
         if(header == null){
             chain.doFilter(request,response);
             return;
         }
 
-        Authentication authentication = jwtAuthenticationService.getAuthentication(header);
+        String token = header.replace(TOKEN_PREFIX,"");
+        Authentication authentication = jwtAuthenticationService.getAuthentication(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request,response);
     }

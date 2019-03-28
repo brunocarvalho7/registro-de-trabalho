@@ -1,11 +1,11 @@
 package br.bruno.greenmiledesafio.security;
 
+import br.bruno.greenmiledesafio.model.UsuarioDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -24,16 +24,21 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.tokenService = tokenService;
     }
 
-
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException {
+        UsernamePasswordAuthenticationToken authRequest = null;
         try {
-            User usuario = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            UsuarioDTO usuario = new ObjectMapper().readValue(request.getInputStream(),UsuarioDTO.class);
 
+            authRequest = new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        setDetails(request, authRequest);
+
+        Authentication auth = this.authenticationManager.authenticate(authRequest);
+        return auth;
     }
 
     @Override

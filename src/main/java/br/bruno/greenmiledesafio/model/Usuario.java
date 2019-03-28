@@ -1,9 +1,11 @@
 package br.bruno.greenmiledesafio.model;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,11 +16,20 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String nome;
+
+    @NotNull
+    @Column(unique = true)
     private String login;
+
+    @NotNull
     private String senha;
+
+    @ColumnDefault("true")
     private boolean ativo;
-    @ManyToMany(fetch = FetchType.EAGER) //TODO VERIFICAR ESSA QUESTAO DO LAZY
+
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Permissao> permissoes = new ArrayList<>();
 
     public Usuario() {
@@ -37,6 +48,30 @@ public class Usuario implements UserDetails {
 
     public String getNome() {
         return nome;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public void setPermissoes(Collection<Permissao> permissoes) {
+        this.permissoes = permissoes;
     }
 
     @Override
@@ -69,17 +104,8 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public void setEnabled(boolean ativo) {
-        this.ativo = ativo;
-    }
-
     @Override
     public boolean isEnabled() {
         return ativo;
-    }
-
-    @Override
-    public String toString() {
-        return this.login;
     }
 }

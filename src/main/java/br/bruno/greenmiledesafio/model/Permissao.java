@@ -1,5 +1,6 @@
 package br.bruno.greenmiledesafio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -18,11 +19,28 @@ public class Permissao implements GrantedAuthority {
     public Permissao(){
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
     public Permissao(String descricao) {
         this.descricao = descricao;
     }
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
         return descricao;
     }
