@@ -26,7 +26,6 @@ public class JWTAuthenticationService {
 
         String header = TOKEN_PREFIX +tokenHandler.createTokenForUser(usuario);
 
-        response.getWriter().write(header);
         response.addHeader(HEADER_STRING,  header);
         response.addCookie(new  Cookie(HEADER_STRING, URLEncoder.encode(header, "UTF-8")));
     }

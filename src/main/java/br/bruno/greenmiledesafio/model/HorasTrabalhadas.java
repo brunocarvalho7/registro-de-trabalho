@@ -1,5 +1,9 @@
 package br.bruno.greenmiledesafio.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiParam;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -16,9 +20,11 @@ public class HorasTrabalhadas {
     private LocalDate data;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime qtdHoras;
 
     @ManyToOne
+    @JsonIgnore
     private Usuario usuario;
 
     public HorasTrabalhadas() {

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class UsuarioDTO {
 
-//    @NotNull
+    @NotNull
     private String nome;
- //   @NotNull
+    @NotNull
     private String username;
- //   @NotNull
+    @NotNull
     private String password;
 
     private ArrayList<String> permissoes;

@@ -7,6 +7,7 @@ import br.bruno.greenmiledesafio.exception.UsuarioNaoEncontradoException;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -22,7 +23,8 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                        ConstraintViolationException.class,
                        LoginExistenteException.class,
                        DadosInvalidosException.class,
-                       IOException.class})
+                       IOException.class,
+                       BadCredentialsException.class})
     public ResponseEntity<ExceptionResponse> badRequest(Exception ex) {
         ExceptionResponse response = ExceptionResponse.Builder.anExceptionResponseBuilder()
                 .withStatus(HttpStatus.BAD_REQUEST)
