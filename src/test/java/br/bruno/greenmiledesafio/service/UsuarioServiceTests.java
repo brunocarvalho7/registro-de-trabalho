@@ -27,7 +27,7 @@ public class UsuarioServiceTests {
 
     @Test
     public void adicionarNovoUsuarioCorretamente() throws LoginExistenteException, DadosInvalidosException {
-        UsuarioDTO usuario = new UsuarioDTO("Teste","teste","123", new ArrayList<>());
+        UsuarioDTO usuario = new UsuarioDTO("Teste","teste_10","123", new ArrayList<>());
 
         Assert.assertNotNull(usuarioService.registerNewUser(usuario));
     }
@@ -53,7 +53,7 @@ public class UsuarioServiceTests {
 
     @Test
     public void localizarUsuarioCadastrado() throws LoginExistenteException, DadosInvalidosException {
-        UsuarioDTO usuario = new UsuarioDTO("Teste","teste","123", new ArrayList<>());
+        UsuarioDTO usuario = new UsuarioDTO("Teste","teste9","123", new ArrayList<>());
         Usuario usuarioSalvo = usuarioService.registerNewUser(usuario);
 
         Assert.assertTrue(usuarioService.findById(usuarioSalvo.getId()).isPresent());
@@ -63,8 +63,8 @@ public class UsuarioServiceTests {
     public void localizarTodosUsuariosCadastrados() throws LoginExistenteException, DadosInvalidosException {
         int oldSize = usuarioService.findAll().size();
 
-        UsuarioDTO usuario = new UsuarioDTO("Teste","teste","123", new ArrayList<>());
-        UsuarioDTO usuario2 = new UsuarioDTO("Teste","teste2","123", new ArrayList<>());
+        UsuarioDTO usuario = new UsuarioDTO("Teste","teste11","123", new ArrayList<>());
+        UsuarioDTO usuario2 = new UsuarioDTO("Teste","teste12","123", new ArrayList<>());
 
         usuarioService.registerNewUser(usuario);
         usuarioService.registerNewUser(usuario2);

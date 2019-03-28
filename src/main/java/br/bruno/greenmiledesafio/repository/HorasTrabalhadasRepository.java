@@ -1,7 +1,6 @@
 package br.bruno.greenmiledesafio.repository;
 
 import br.bruno.greenmiledesafio.model.HorasTrabalhadas;
-import br.bruno.greenmiledesafio.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
