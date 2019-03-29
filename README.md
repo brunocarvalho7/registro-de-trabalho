@@ -4,9 +4,11 @@
 
 A partir de um commit realizado na branch *master* do projeto, será disparado uma task de intergração contínua no  [CircleCI](https://circleci.com/gh/brunocarvalho7/registro-de-trabalho/tree/master), na qual esse fará todos os testes unitários e de integração e caso o build seja bem sucedido será feito uma análise de qualidade de código no [SonarCloud.io](https://sonarcloud.io/dashboard?id=brunocarvalho7_registro-de-trabalho) e posteriormente o deploy automático da aplicação no [Heroku](https://api-desafio-bruno.herokuapp.com/swagger-ui.html)
 
+> **Documentação da API:** *https://api-desafio-bruno.herokuapp.com/*
+
 > **API Base URL:** *https://api-desafio-bruno.herokuapp.com/v1/*
-**Usuário padrão:** *admin*
-**Senha padrão:** *123*
+> **Usuário padrão:** *admin*
+> **Senha padrão:** *123*
 
 
 
