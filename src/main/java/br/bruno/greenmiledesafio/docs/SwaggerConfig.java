@@ -7,7 +7,6 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.paths.RelativePathProvider;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -27,13 +26,7 @@ public class SwaggerConfig {
                 .paths(regex("/v1.*"))
                 .build()
             .useDefaultResponseMessages(false)
-            .apiInfo(metaData())
-            .pathProvider(new RelativePathProvider(servletContext){
-                @Override
-                public String getApplicationBasePath() {
-                    return "https://api-desafio-bruno.herokuapp.com/v1/";
-                }
-            });
+            .apiInfo(metaData());
     }
 
     private ApiInfo metaData(){
