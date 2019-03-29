@@ -7,8 +7,11 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.paths.RelativePathProvider;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import javax.servlet.ServletContext;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
@@ -17,14 +20,20 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig {
 
     @Bean
-    public Docket apiDoc(){
+    public Docket apiDoc(ServletContext servletContext){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.bruno.greenmiledesafio.controller"))
                 .paths(regex("/v1.*"))
                 .build()
             .useDefaultResponseMessages(false)
-            .apiInfo(metaData());
+            .apiInfo(metaData())
+            .pathProvider(new RelativePathProvider(servletContext){
+                @Override
+                public String getApplicationBasePath() {
+                    return "https://api-desafio-bruno.herokuapp.com/v1/";
+                }
+            });
     }
 
     private ApiInfo metaData(){
