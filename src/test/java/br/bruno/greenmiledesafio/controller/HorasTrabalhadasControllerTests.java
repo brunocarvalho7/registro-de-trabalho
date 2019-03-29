@@ -26,9 +26,6 @@ import java.util.List;
 public class HorasTrabalhadasControllerTests {
 
     @Autowired
-    private HorasTrabalhadasController horasTrabalhadasController;
-
-    @Autowired
     private TestRestTemplate restTemplate;
 
     @Test

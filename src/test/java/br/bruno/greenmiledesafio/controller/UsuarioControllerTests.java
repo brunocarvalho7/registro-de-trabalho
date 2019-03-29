@@ -22,9 +22,6 @@ import java.util.ArrayList;
 public class UsuarioControllerTests {
 
     @Autowired
-    private UsuarioController usuarioController;
-
-    @Autowired
     private TestRestTemplate restTemplate;
 
     @Rule

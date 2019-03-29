@@ -18,6 +18,10 @@ public class UsuarioDTO {
     private List<String> permissoes;
 
     public UsuarioDTO() {
+        this.nome = "";
+        this.username = "";
+        this.password = "";
+        this.permissoes = new ArrayList<>();
     }
 
     public UsuarioDTO( String username, String password) {
@@ -52,17 +56,11 @@ public class UsuarioDTO {
 
     @JsonIgnore
     public boolean isValid(){
-        if(isAFieldValid(nome) && isAFieldValid(username) && isAFieldValid(password))
-            return true;
-
-        return false;
+        return isAFieldValid(nome) && isAFieldValid(username) && isAFieldValid(password);
     }
 
     @JsonIgnore
     public boolean isAFieldValid(String field){
-        if(field != null && field.trim().length() > 0)
-            return true;
-
-        return false;
+        return field != null && field.trim().length() > 0;
     }
 }

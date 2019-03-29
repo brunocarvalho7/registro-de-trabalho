@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 @Controller
 public class HomeController {
 
-    private final String urlPrincipal = "/swagger-ui.html";
+    private final static String urlPrincipal = "/swagger-ui.html";
 
     @GetMapping({"", "/"})
     public ResponseEntity<Object> getHomePage() throws URISyntaxException {
