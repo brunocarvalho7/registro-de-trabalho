@@ -26,8 +26,6 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    private JWTAuthenticationService jwtAuthenticationService;
-
     @PostMapping("")
     @ApiOperation(value = "Efetua login no sistema", response = String.class, code = 200)
     @ApiResponses(value = {
@@ -41,7 +39,7 @@ public class LoginController {
         HttpServletResponse response){
 
         try {
-            jwtAuthenticationService = new JWTAuthenticationService(new CustomUserDetailsService());
+            JWTAuthenticationService jwtAuthenticationService = new JWTAuthenticationService(new CustomUserDetailsService());
 
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
                                             (loginDTO.getUsername(), loginDTO.getPassword()));

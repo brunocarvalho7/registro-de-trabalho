@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioDTO {
 
@@ -14,7 +15,7 @@ public class UsuarioDTO {
     @NotNull
     private String password;
 
-    private ArrayList<String> permissoes;
+    private List<String> permissoes;
 
     public UsuarioDTO() {
     }
@@ -26,7 +27,7 @@ public class UsuarioDTO {
         this.permissoes = new ArrayList<>();
     }
 
-    public UsuarioDTO(String nome,String username, String password, ArrayList<String> permissoes) {
+    public UsuarioDTO(String nome,String username, String password, List<String> permissoes) {
         this.nome = nome;
         this.username = username;
         this.password = password;
@@ -45,16 +46,22 @@ public class UsuarioDTO {
         return password;
     }
 
-    public ArrayList<String> getPermissoes() {
+    public List<String> getPermissoes() {
         return permissoes;
     }
 
     @JsonIgnore
     public boolean isValid(){
-        if(this.nome != null && this.nome.trim().length() > 0)
-            if(this.username != null && this.username.trim().length() > 0)
-                if(this.password != null && this.password.trim().length() > 0)
-                    return true;
+        if(isAFieldValid(nome) && isAFieldValid(username) && isAFieldValid(password))
+            return true;
+
+        return false;
+    }
+
+    @JsonIgnore
+    public boolean isAFieldValid(String field){
+        if(field != null && field.trim().length() > 0)
+            return true;
 
         return false;
     }

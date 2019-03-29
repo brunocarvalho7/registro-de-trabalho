@@ -37,8 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
         setDetails(request, authRequest);
 
-        Authentication auth = this.authenticationManager.authenticate(authRequest);
-        return auth;
+        return this.authenticationManager.authenticate(authRequest);
     }
 
     @Override

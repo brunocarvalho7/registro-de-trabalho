@@ -17,7 +17,7 @@ public class JWTAuthenticationService {
 
     private TokenHandler tokenHandler;
 
-    public JWTAuthenticationService(UserDetailsService userDetailsService) throws IOException {
+    public JWTAuthenticationService(UserDetailsService userDetailsService) {
         this.tokenHandler = new TokenHandler(userDetailsService);
     }
 

@@ -49,7 +49,7 @@ public class HorasTrabalhadasRepositoryTests {
         horasTrabalhadasRepository.save(new HorasTrabalhadas(LocalDate.of(2019,03,28),
                 LocalTime.of(8,40), usuario2));
 
-        Assert.assertEquals(horasTrabalhadasRepository.findByUsuario(usuario.getId()).size(), 2);
+        Assert.assertEquals(2, horasTrabalhadasRepository.findByUsuario(usuario.getId()).size());
     }
 
 }

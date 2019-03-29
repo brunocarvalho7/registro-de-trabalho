@@ -45,7 +45,7 @@ public class HorasTrabalhadasServiceTests {
         horasTrabalhadasService.save(usuario, new HorasTrabalhadas(LocalDate.of(2019,3,28),
                 LocalTime.of(0,50)));
 
-        Assert.assertEquals(horasTrabalhadasService.findHorasTrabalhadas(usuario.getId()).size(),3);
+        Assert.assertEquals(3,horasTrabalhadasService.findHorasTrabalhadas(usuario.getId()).size());
     }
 
     @Test

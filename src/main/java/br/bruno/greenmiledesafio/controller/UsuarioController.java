@@ -57,12 +57,9 @@ public class UsuarioController {
             @ApiImplicitParam(name="Authorization", value = "Bearer token",
             required = true, dataType = "String", paramType = "header")
     })
-    public ResponseEntity<?> save(@RequestBody
+    public ResponseEntity<Usuario> save(@RequestBody
                                       @ApiParam(name="Usuario", value="Usuario a ser cadastrado", required = true)
-                                              UsuarioDTO usuarioDTO, BindingResult result) throws LoginExistenteException, DadosInvalidosException {
-        if(result.hasErrors()){
-            return ResponseEntity.badRequest().body(result);
-        }
+                                              UsuarioDTO usuarioDTO) throws LoginExistenteException, DadosInvalidosException {
 
         Usuario usuarioSalvo = usuarioService.registerNewUser(usuarioDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
