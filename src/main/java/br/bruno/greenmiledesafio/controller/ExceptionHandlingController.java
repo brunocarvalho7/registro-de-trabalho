@@ -1,9 +1,6 @@
 package br.bruno.greenmiledesafio.controller;
 
-import br.bruno.greenmiledesafio.exception.DadosInvalidosException;
-import br.bruno.greenmiledesafio.exception.ExceptionResponse;
-import br.bruno.greenmiledesafio.exception.LoginExistenteException;
-import br.bruno.greenmiledesafio.exception.UsuarioNaoEncontradoException;
+import br.bruno.greenmiledesafio.exception.*;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +21,7 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                        LoginExistenteException.class,
                        DadosInvalidosException.class,
                        IOException.class,
+                       HorasTrabalhadasNaoEncontradaException.class,
                        BadCredentialsException.class})
     public ResponseEntity<ExceptionResponse> badRequest(Exception ex) {
         ExceptionResponse response = ExceptionResponse.Builder.anExceptionResponseBuilder()

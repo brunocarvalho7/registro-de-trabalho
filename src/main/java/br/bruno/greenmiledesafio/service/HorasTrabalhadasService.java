@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HorasTrabalhadasService {
@@ -22,5 +23,9 @@ public class HorasTrabalhadasService {
         horasTrabalhadas.setUsuario(usuario);
 
         return horasTrabalhadasRepository.save(horasTrabalhadas);
+    }
+
+    public Optional<HorasTrabalhadas> findById(Long id) {
+        return horasTrabalhadasRepository.findById(id);
     }
 }

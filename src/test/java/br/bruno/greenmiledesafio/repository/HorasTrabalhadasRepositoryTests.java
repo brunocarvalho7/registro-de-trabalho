@@ -21,18 +21,35 @@ public class HorasTrabalhadasRepositoryTests {
     @Autowired
     private HorasTrabalhadasRepository horasTrabalhadasRepository;
 
-    @Autowired UsuarioRepository usuarioRepository;
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Test
     public void adicionarHoraTrabalhadaCorretamente(){
         Usuario usuario = usuarioRepository.findByLogin("admin");
 
         HorasTrabalhadas hora = new HorasTrabalhadas(LocalDate.of(2019,03,28),
-                LocalTime.of(06,40), usuario);
+                LocalTime.of(6,40), usuario);
 
         Assert.assertNotNull(horasTrabalhadasRepository.save(hora));
+    }
+
+    @Test
+    public void ObterTodasAsHorasTrabalhadasCorretamente(){
+        Usuario usuario = usuarioRepository.findByLogin("admin");
+
+        Usuario usuario2 = usuarioRepository.findByLogin("bruno");
+
+        horasTrabalhadasRepository.save(new HorasTrabalhadas(LocalDate.of(2019,03,28),
+                LocalTime.of(6,40), usuario));
+
+        horasTrabalhadasRepository.save(new HorasTrabalhadas(LocalDate.of(2019,03,28),
+                LocalTime.of(8,40), usuario));
+
+        horasTrabalhadasRepository.save(new HorasTrabalhadas(LocalDate.of(2019,03,28),
+                LocalTime.of(8,40), usuario2));
+
+        Assert.assertEquals(horasTrabalhadasRepository.findByUsuario(usuario.getId()).size(), 2);
     }
 
 }

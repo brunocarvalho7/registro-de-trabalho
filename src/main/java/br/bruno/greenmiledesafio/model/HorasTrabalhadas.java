@@ -2,7 +2,6 @@ package br.bruno.greenmiledesafio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiParam;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,10 +29,19 @@ public class HorasTrabalhadas {
     public HorasTrabalhadas() {
     }
 
+    public HorasTrabalhadas(@NotNull LocalDate data, @NotNull LocalTime qtdHoras) {
+        this.data = data;
+        this.qtdHoras = qtdHoras;
+    }
+
     public HorasTrabalhadas(@NotNull LocalDate data, @NotNull LocalTime qtdHoras, Usuario usuario) {
         this.data = data;
         this.qtdHoras = qtdHoras;
         this.usuario = usuario;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public LocalDate getData() {

@@ -2,6 +2,7 @@ package br.bruno.greenmiledesafio.controller;
 
 import br.bruno.greenmiledesafio.exception.DefaultException;
 import br.bruno.greenmiledesafio.exception.ExceptionResponse;
+import br.bruno.greenmiledesafio.exception.HorasTrabalhadasNaoEncontradaException;
 import br.bruno.greenmiledesafio.exception.UsuarioNaoEncontradoException;
 import br.bruno.greenmiledesafio.model.HorasTrabalhadas;
 import br.bruno.greenmiledesafio.model.Usuario;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -51,7 +54,6 @@ public class HorasTrabalhadasController {
             @ApiResponse(code = 201, message = "Created", response = ExceptionResponse.class),
             @ApiResponse(code = 400, message = "Usuário não encontrado", response = ExceptionResponse.class),
             @ApiResponse(code = 403, message = "Access Denied", response = DefaultException.class),
-            @ApiResponse(code = 500, message = "Token inválido", response = DefaultException.class)
     })
     @ApiImplicitParams({
             @ApiImplicitParam(name="Authorization", value = "Bearer token",
@@ -59,11 +61,29 @@ public class HorasTrabalhadasController {
     })
     public ResponseEntity<HorasTrabalhadas> saveHoraTrabalhada(@PathVariable("id") @ApiParam(name="Id",
             value="Código do usuário a ser inserido as horas trabalhadas", required = true) Long id,
-                        @RequestBody HorasTrabalhadas horasTrabalhadas)
-            throws UsuarioNaoEncontradoException{
+                        @RequestBody HorasTrabalhadas horasTrabalhadas) throws UsuarioNaoEncontradoException{
+
         Usuario usuario = usuarioService.findById(id)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 
-        return ResponseEntity.ok(horasTrabalhadasService.save(usuario, horasTrabalhadas));
+        HorasTrabalhadas horaTrabalhada = horasTrabalhadasService.save(usuario, horasTrabalhadas);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/registro/{id}")
+                .buildAndExpand(horaTrabalhada.getId()).toUri();
+
+        return ResponseEntity.created(location).body(horaTrabalhada);
+    }
+
+    @GetMapping("/registro/{id}")
+    @ApiOperation(value = "Retorna todos os dados de um registro de horário especifico")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Registro não encontrado", response = ExceptionResponse.class),
+    })
+    public ResponseEntity<HorasTrabalhadas> find(@ApiParam(name="Id", value="Código do usuário a ser pesquisado",
+            required = true) @PathVariable("id") Long id) throws HorasTrabalhadasNaoEncontradaException {
+        HorasTrabalhadas horaTrabalhada = horasTrabalhadasService.findById(id)
+                .orElseThrow(() -> new HorasTrabalhadasNaoEncontradaException(id));
+
+        return ResponseEntity.ok(horaTrabalhada);
     }
 }

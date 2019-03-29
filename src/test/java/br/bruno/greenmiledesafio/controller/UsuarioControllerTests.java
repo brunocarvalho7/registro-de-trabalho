@@ -1,6 +1,7 @@
 package br.bruno.greenmiledesafio.controller;
 
 import br.bruno.greenmiledesafio.exception.LoginExistenteException;
+import br.bruno.greenmiledesafio.model.LoginDTO;
 import br.bruno.greenmiledesafio.model.Usuario;
 import br.bruno.greenmiledesafio.model.UsuarioDTO;
 import org.assertj.core.api.Assertions;
@@ -61,11 +62,11 @@ public class UsuarioControllerTests {
     }
 
     @Test
-    public void aoTentarSalvarUmNovoUsuarioEstandoLogadoDeveRetornarStatus401(){
+    public void aoTentarSalvarUmNovoUsuarioEstandoLogadoDeveRetornarStatus201(){
         UsuarioDTO usuario = new UsuarioDTO("Melao", "melao", "melao", new ArrayList<>());
 
         ResponseEntity<Usuario> response = restTemplate.exchange("/v1/usuarios",
-                HttpMethod.POST, new HttpEntity<>(usuario, logar()), Usuario.class);
+                HttpMethod.POST, new HttpEntity<>(usuario, getHeadersAuthorization()), Usuario.class);
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
@@ -75,28 +76,25 @@ public class UsuarioControllerTests {
         UsuarioDTO usuario = new UsuarioDTO("Tangerina", "tangerina", "tangerina", new ArrayList<>());
 
         ResponseEntity<Usuario> response = restTemplate.exchange("/v1/usuarios",
-                HttpMethod.POST, configHttpEntity(usuario), Usuario.class);
+                HttpMethod.POST, new HttpEntity<>(usuario, getHeadersAuthorization()), Usuario.class);
 
         UsuarioDTO usuario2 = new UsuarioDTO("Abacaxi", "tangerina", "abacaxi", new ArrayList<>());
 
         ResponseEntity<Usuario> response2 = restTemplate.exchange("/v1/usuarios",
-                HttpMethod.POST, configHttpEntity(usuario2), Usuario.class);
+                HttpMethod.POST, new HttpEntity<>(usuario2, getHeadersAuthorization()), Usuario.class);
 
         Assertions.assertThat(response2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
-    private HttpHeaders logar(){
-        UsuarioDTO usuarioDTO = new UsuarioDTO("admin","admin","123",new ArrayList<>());
-        ResponseEntity<String> response = restTemplate.postForEntity("/login", usuarioDTO, String.class);
+    private HttpHeaders getHeadersAuthorization(){
+        LoginDTO loginDTO = new LoginDTO("admin", "123");
+
+        ResponseEntity<String> response = restTemplate.postForEntity("/v1/login", loginDTO, String.class);
 
         HttpHeaders requestHeader = new HttpHeaders();
         requestHeader.add("Authorization", response.getBody());
+        requestHeader.add("Content-Type", "application/json");
 
         return requestHeader;
     }
-
-    private HttpEntity configHttpEntity(UsuarioDTO usuarioASerPersistido){
-        return new HttpEntity(usuarioASerPersistido, logar());
-    }
-
 }
